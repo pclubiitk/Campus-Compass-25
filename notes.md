@@ -84,14 +84,20 @@ Mostly used for like dynamic elements which change during runtime. For example a
 #### 🧪 Example:
 ```tsx
 import clsx from 'clsx';
-
-const buttonClass = clsx(
-  'text-white px-4 py-2',
-  isPrimary && 'bg-blue-500',
-  isDisabled && 'opacity-50 cursor-not-allowed'
-);
-
-<button className={buttonClass}>Submit</button>
+ 
+export default function InvoiceStatus({ status }: { status: string }) {
+  return (
+    <span
+      className={clsx(
+        'inline-flex items-center rounded-full px-2 py-1 text-sm',
+        {
+          'bg-gray-100 text-gray-500': status === 'pending',
+          'bg-green-500 text-white': status === 'paid',
+        },
+      )}
+    >
+    // ...
+)}
 ```
 
 
