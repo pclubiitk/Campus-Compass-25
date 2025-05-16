@@ -18,34 +18,6 @@
 
 For quickly building like UI elements within the html tags itself.
 
-#### Setup (usually preconfigured in official templates):
-```bash
-npm install -D tailwindcss postcss autoprefixer
-npx tailwindcss init -p
-```
-
-#### `tailwind.config.js` (important!)
-```js
-module.exports = {
-  content: [
-    './app/**/*.{js,ts,jsx,tsx}',
-    './components/**/*.{js,ts,jsx,tsx}',
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
-```
-
-#### `globals.css`
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
-
-#### Usage:
 ```tsx
 <p className="text-gray-800 text-xl md:text-3xl md:leading-normal">
   Welcome to the dashboard!
