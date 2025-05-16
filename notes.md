@@ -1,4 +1,4 @@
-## 📦 Common Imports from `next/`
+## Common Imports from `next/`
 
 | Import | Description |
 |--------|-------------|
@@ -10,21 +10,21 @@
 | `next/script` | Load external scripts with control over when/how they load |
 
 
-## 🎨 Styling in Next.js (App Router)
+## Styling in Next.js (App Router)
 
 ---
 
-### 1. ✅ Tailwind CSS
+### 1. Tailwind CSS
 
 For quickly building like UI elements within the html tags itself.
 
-#### 📦 Setup (usually preconfigured in official templates):
+#### Setup (usually preconfigured in official templates):
 ```bash
 npm install -D tailwindcss postcss autoprefixer
 npx tailwindcss init -p
 ```
 
-#### 🛠️ `tailwind.config.js` (important!)
+#### `tailwind.config.js` (important!)
 ```js
 module.exports = {
   content: [
@@ -38,14 +38,14 @@ module.exports = {
 }
 ```
 
-#### 📁 `globals.css`
+#### `globals.css`
 ```css
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 ```
 
-#### 🧪 Usage:
+#### Usage:
 ```tsx
 <p className="text-gray-800 text-xl md:text-3xl md:leading-normal">
   Welcome to the dashboard!
@@ -54,11 +54,11 @@ module.exports = {
 
 ---
 
-### 2. 🎯 CSS Modules
+### 2. CSS Modules
 
 These are component scoped. You have to make like .module.css files and then put code in them then link them back to the components in the href tags. Similar to tailwind its just local to each component. 
 
-#### 📁 `Button.module.css`
+#### `Button.module.css`
 ```css
 .button {
   background-color: #1d4ed8;
@@ -68,7 +68,7 @@ These are component scoped. You have to make like .module.css files and then put
 }
 ```
 
-#### 🧪 Use in component:
+#### Use in component:
 ```tsx
 import styles from './Button.module.css';
 
@@ -76,29 +76,28 @@ import styles from './Button.module.css';
 ```
 
 
-### 3. 🧩 clsx
+### 3. clsx
 
 Mostly used for like dynamic elements which change during runtime. For example a button with paid and pending having different colours.
 
 
-#### 🧪 Example:
-```tsx
-import clsx from 'clsx';
- 
-export default function InvoiceStatus({ status }: { status: string }) {
-  return (
-    <span
-      className={clsx(
-        'inline-flex items-center rounded-full px-2 py-1 text-sm',
-        {
-          'bg-gray-100 text-gray-500': status === 'pending',
-          'bg-green-500 text-white': status === 'paid',
-        },
-      )}
-    >
-    // ...
-)}
+### Chapter 4-5:
+So for creating nested pages, you can nest folders and then use different page.tsx's files inside each.
+
+Then to link them to perform client side navigation (just change url and not have server reload again) use next/link. and then the <Link></Link> component.
+
+To get user's URL you can use usePathName() which is a react hook (Client component). 
+
+### Chapter 7:
+Seeding: Populating database with initial values. 
+
+APIs : For like accessing databases we can either use an API layer which is used when we want to reveal data/get data from client. In that case we want like an extra layer so that we don't reveal our secrets. 
+
+Queries : For getting data from the db we use queries. If we want to fetch server-side data we just directly use queries which are coded using SQL ( for relational dbs like Postgre). If we want to fetch client-side data we use API layer. 
+
+
 ```
+
 
 
 
