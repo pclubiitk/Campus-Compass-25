@@ -24,3 +24,44 @@ import { usePathname } from 'next/navigation'; this usepath is used for getting 
 
 chapter 6
 database related thing upar upar se chla gaya 
+
+chapter 7 
+this await is called as waterfall and promise.all() is parallel ...
+
+chapter 8
+
+statice ren... of data done in backend for the purpose of fixed type of data ,
+dynamic jo aja tak me karta tatha which is slow
+
+chapter 9 
+streaming means vo loading ke time pe hota hai na that spinner and all 
+remember the line and words Right now, your loading skeleton will apply to the invoices.
+
+Since loading.tsx is a level higher than /invoices/page.tsx and /customers/page.tsx in the file system, it's also applied to those pages. the main which which is reason for ***** nextjs
+Route groups allow you to organize files into logical groups without affecting the URL path structure. When you create a new folder using parentheses (), the name won't be included in the URL path. So /dashboard/(overview)/page.tsx becomes /dashboard
+
+wow!
+<!-- 
+   <Suspense fallback={<RevenueChartSkeleton />}>
+          <RevenueChart />
+        </Suspense> -->
+
+        remeber cardwraper
+
+
+ chapter 10 we need next 14
+
+
+ chapter 11 
+ Congratulations! You've just implemented search and pagination using URL search params and Next.js APIs.
+
+To summarize, in this chapter:
+
+You've handled search and pagination with URL search parameters instead of client state.
+You've fetched data on the server.
+You're using the useRouter router hook for smoother, client-side transitions.
+These patterns are different from what you may be used to when working with client-side React, but hopefully, you now better understand the benefits of using URL search params and lifting this state to the server.
+
+@@@@@@@@@@need to revise 11 @@@@
+
+        
