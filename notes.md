@@ -1,4 +1,4 @@
-## Common Imports from `next/`
+### Common Imports from `next/`
 
 | Import | Description |
 |--------|-------------|
@@ -10,11 +10,11 @@
 | `next/script` | Load external scripts with control over when/how they load |
 
 
-## Styling in Next.js (App Router)
+### Chapter 2 (Styling) : 
 
 ---
 
-### 1. Tailwind CSS
+#### 1. Tailwind CSS
 
 For quickly building like UI elements within the html tags itself.
 
@@ -26,11 +26,11 @@ For quickly building like UI elements within the html tags itself.
 
 ---
 
-### 2. CSS Modules
+#### 2. CSS Modules
 
 These are component scoped. You have to make like .module.css files and then put code in them then link them back to the components in the href tags. Similar to tailwind its just local to each component. 
 
-#### `Button.module.css`
+##### `Button.module.css`
 ```css
 .button {
   background-color: #1d4ed8;
@@ -40,7 +40,7 @@ These are component scoped. You have to make like .module.css files and then put
 }
 ```
 
-#### Use in component:
+##### Use in component:
 ```tsx
 import styles from './Button.module.css';
 
@@ -48,7 +48,7 @@ import styles from './Button.module.css';
 ```
 
 
-### 3. clsx
+#### 3. clsx
 
 Mostly used for like dynamic elements which change during runtime. For example a button with paid and pending having different colours.
 
