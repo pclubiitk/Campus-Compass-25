@@ -66,11 +66,3 @@ Seeding: Populating database with initial values.
 APIs : For like accessing databases we can either use an API layer which is used when we want to reveal data/get data from client. In that case we want like an extra layer so that we don't reveal our secrets. 
 
 Queries : For getting data from the db we use queries. If we want to fetch server-side data we just directly use queries which are coded using SQL ( for relational dbs like Postgre). If we want to fetch client-side data we use API layer. 
-
-
-```
-
-
-
-
-
