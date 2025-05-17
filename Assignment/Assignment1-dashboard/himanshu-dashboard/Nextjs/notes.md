@@ -127,5 +127,62 @@ border-right: 20px solid transparent;
 ## Chapter 6
 
 1. Here, we will set up the database using PostgreSQL.
-2. Next we deploy our repository in vercel. This will automatically redeploy our app with no configuration needed.
-3.
+   - Next we deploy our repository in vercel. This will automatically redeploy our app with no configuration needed.
+   - After deployment click Continue to Dashboard to create Postgres.
+   - Choose the preferred server in storage tab (I choose Neon).
+   - Connect to server and go to `.env.local`, click Show secret and copy snippet.
+   - Navigate to your code editor and rename the .env.example file to .env. Paste in the copied contents from Vercel.
+2. **Seed** means populating database with some initial data.
+   - To do so run `pnpm run dev` in cmd and go to http://localhost:3000/seed to seed the database.
+   - It will display the message "Database seeded successfully"
+   - Data will be taken from `placeholder-data.ts`
+3. To query the database we use Router Handler in `app/query/route.ts`.
+   - A function `listInvoices()` is there uncomment it and remove `Response.json()` line saying to uncomment and replace it with the try block and go to http://localhost:3000/query.
+   - Invoice amount and name is shown.
+
+## Chapter 7
+
+1. **APIs** are an intermediary layer between application code and database.
+2. For full stack application writing logic to interact with database is necessary. But do not reveal secrets to the client (use react server components)
+   - Using `async/await` we can avoid using `useState`, `useEffect` etc.
+   - It doesn't need additional API and sends only result to the client doing fetches on server.
+3. The query will be written using postgres.js library and SQL
+   - Go to `/app/lib/data.ts` all the data queries are there.
+   - `sql` can be called anywheere using
+   ```
+   import postgres from 'postgres';
+   const sql = postgres(process.env.POSTGRES_URL!, { ssl: 'require' });
+   ```
+4. Now we will fetch data for dashboard overview page
+   - In `/app/dashboard/page.tsx` we will update the code in order to fetch data.
+   ### `<RevenueChart/>`
+   - In the code for `<RevenueChart/>` import `fetchRevenue` function from data.ts as `import { fetchRevenue } from '@/app/lib/data';` and add `const revenue = await fetchRevenue();` in the Page function.
+   - Uncomment `<RevenueChart/>` and code insidde `/app/ui/dashboard/revenue-chart.tsx` and check localhost:3000.
+   * Also import `fetchRevenue` as `import { fetchRevenue } from "@/app/lib/data";` and declare a variable in `Page()` as `const revenue = await fetchRevenue();` in `page.tsx` to fetch the data.
+   ### `<LatestInvoices/>`
+   - We will not fetch all data instead fetch latest 5 invoices from `data.ts` to do so
+     - Import `fetchLatestInvoices` by `import { fetchRevenue, fetchLatestInvoices } from '@/app/lib/data';` and add `const latestInvoices = await fetchLatestInvoices();` in `Page()`
+     - Similar to `<RevenueChart/>` uncomment `<LatestInvoices />` component and relevant code in `/app/ui/dashboard/latest-invoices`.
+   ### `<Card/>`
+   - If we use JS to display various cards we would have to go through the whole but using SQl we can do this easily as
+   ```
+   const invoiceCountPromise = sql`SELECT COUNT(*) FROM invoices`;
+   const customerCountPromise = sql`SELECT COUNT(*) FROM customers`;
+   ```
+   in `/app/lib/data.ts`
+   - We will import `fetchCardData` function for this and do similar to other components.
+5. We could face **request waterfalls**, i.e. network requests which depend on the completion of the previous request, like `fetchLatestInvoices()` could only start after `fetchRevenue()` stops.
+6. Common way to avoid waterfalls is **parallel data fetching** which can be done using `Promise.all()` or `Promise.allSettled()` functions.
+
+## Chapter 8
+
+1. With **static rendering**, data fetching and rendering happens on the server at build time (when you deploy) or when revalidating data. Cached data could be used to make websites faster.
+2. With **dynamic rendering**, content is rendered on the server for each user at request time (when the user visits the page).
+3. In `/app/lib/data.ts` if we uncomment
+
+```
+console.log('Fetching revenue data...');
+await new Promise((resolve) => setTimeout(resolve, 3000));
+...
+console.log('Data fetch completed after 3 seconds.');
+```
