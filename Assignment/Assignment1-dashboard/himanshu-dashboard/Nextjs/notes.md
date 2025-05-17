@@ -126,4 +126,6 @@ border-right: 20px solid transparent;
 
 ## Chapter 6
 
-1.
+1. Here, we will set up the database using PostgreSQL.
+2. Next we deploy our repository in vercel. This will automatically redeploy our app with no configuration needed.
+3.
