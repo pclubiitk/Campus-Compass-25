@@ -186,3 +186,137 @@ await new Promise((resolve) => setTimeout(resolve, 3000));
 ...
 console.log('Data fetch completed after 3 seconds.');
 ```
+
+then the site will slow down and won't show anything until all data is fetched this is the **slow data fetch**.
+With dynamic rendering, your application is only as fast as your slowest data fetch.
+
+## Chapter 9
+
+1. **Streaming** is a data transfer technique which breaks down route into smaller parts and stream from server to client as it becomes ready.
+2. Streaming can be applied using `loading.tsx` at page level and `<Suspense>` at component level.
+   - In `/app/dashboard` create `loading.tsx`.
+3. A **loading skeleton** is a simplified version of the UI. Any UI in `loading.tsx` is a static file which is sent first then the dynamic content.
+   - This can be done by importing `import DashboardSkeleton from '@/app/ui/skeletons';` and returning `return <DashboardSkeleton />;` in `loading.tsx`
+   - Since `loading.tsx` is a level higher than `/invoices/page.tsx` and `/customers/page.tsx` in the file system, it's also applied to those pages.
+   - To refrain from this create a new folder `/(overview)` inside dashboard and move `loading.tsk` and `page.tsk` in it.
+   - Using routing groups () `/dashboard/(overview)/page.tsx` becomes `/dashboard` hence `loading.tsx` applies only to dashboard overview.
+4. Till now we are streaming whole page to stream specific components use **React Suspense**
+   - We can suspense `fetchRevenue()` as this is the only request slowing the page so we will strean just this and show rest of the UI.
+   - To do this remove `fetchRevenue` from import and this line `const revenue = await fetchRevenue()`. Import `RevenueChartSkeleton` and `Suspense`from `/app/ui/skeletons` and `react` respectively. Also return the `suspense`.
+   ```
+   import { Suspense } from 'react';
+   import { RevenueChartSkeleton } from '@/app/ui/skeletons';
+   ...
+   <Suspense fallback={<RevenueChartSkeleton />}>
+      <RevenueChart />
+   </Suspense>
+   ```
+   in `page.tsx`
+   - Then update the `<RevenueChart>` component by adding import of `fetchRevenue` and adding async to the component definition and fetch the data inside the component.
+   ```
+   import { fetchRevenue } from '@/app/lib/data';
+   ...
+   export default async function RevenueChart() {
+      const revenue = await fetchRevenue();
+   ...
+   ```
+   - Similarly the process is to be repeated for `LatestInvoices`
+5. Now to apply the same in Cards it could lead to _popping effect_ so to tackle this problem:
+   - In `page.tsx`,
+     - Delete your `<Card>` components.
+     - Delete the `fetchCardData()` function.
+     - Import a new wrapper component called `<CardWrapper />`.
+     - Import a new skeleton component called `<CardsSkeleton />`.
+     - Wrap `<CardWrapper />` in Suspense.
+   - In `/app/ui/dashboard/cards.tsx`,
+     - Import `fetchCardData` as `import { fetchCardData } from '@/app/lib/data';`
+     - Invoke it inside `<CardWrapper/>` as
+     ```
+     const {
+        numberOfInvoices,
+        numberOfCustomers,
+        totalPaidInvoices,
+        totalPendingInvoices,
+     } = await fetchCardData();
+     ```
+     - This could be used when multiple components are to be loaded at the same time.
+
+## Chapter 10
+
+1. **Partial Prerendering (PPR)** is the combination of static, dynamic rendering and streaming.
+2. PPR is only available with the Next.js canary releases and it is an experimental feature so we have to install it using `pnpm install next@canary`
+3. To enable PPR, add `ppr` in `next.config.ts` as
+
+```
+experimental: {
+   ppr: 'incremental'
+}
+```
+
+The incremental value allows to adopt PPR for specific routes.
+Then add `experimental_ppr` in `/app/dashboard/layout.tsx` as `export const experimental_ppr = true;`
+
+## Chapter 11
+
+1. Here, we will move to `/invoices` place.
+2. Let's make `/dashboard/invoices/page.tsx` with the code. It contains `<Search/>`, `<Pagination/>` and `<Table/>`.
+3. The hooks used to add search functionality are:
+   - `useSearchParams` allows current URL parameter access.
+   - `usePathname` lets us to read the URL pathname.
+   - `useRouter` enables navigation between routes within client components.
+4. To implement this
+   - In `/app/ui/search.tsx` go to `<Search>` and here `"use client"` signifies it as a client component and `<input>` is the search input.
+   - Create new `handleSearch` function and add `onChange` to the `<input>` as
+   ```
+   function handleSearch(term: string) {
+    console.log(term);
+   }
+   ...
+   onChange={(e) => {
+      handleSearch(e.target.value);
+   }}
+   ```
+   - Update the URL with search params by importing `useSearchParams` hook from `next/navigation` and assign variable as
+   ```
+   import { useSearchParams } from 'next/navigation';
+   ...
+   const searchParams = useSearchParams();
+   ```
+   - Inside `handleSearch`, create `URLSearchParams` instance, which manipulates URL query parameters with methods, using `searchParams` variable as `const params = new URLSearchParams(searchParams);`
+   - `set` the params string based on the user’s input. If the input is empty, you want to `delete` it as
+   ```
+   if (term) {
+      params.set('query', term);
+   } else {
+      params.delete('query');
+   }
+   ```
+   - Now `useRouter` and `usePathname` can be used. Import `useRouter` and `usePathname` from '`next/navigation`', and use the `replace` method from `useRouter()` inside `handleSearch` as
+   ```
+   import { useSearchParams, usePathname, useRouter } from 'next/navigation';
+   ...
+   const pathname = usePathname();
+   const { replace } = useRouter();
+   ...
+   replace(`${pathname}?${params.toString()}`);
+   ```
+   Here, `$(pathname)` is the current path. `params.toString()` translates the input iinto URL friendly format. `replace(${pathname}?${params.toString()})` updates the URL with the user's search data.
+   - To keep input and URL in sync pass a `defaultValue` to input by reading from `searchParams` as `defaultValue={searchParams.get('query')?.toString()}`
+   - Now to update the table accept a prop called `searchParams` as
+   ```
+   export default async function Page(props: {
+   searchParams?: Promise<{
+      query?: string;
+      page?: string;
+   }>;
+   }) {
+   const searchParams = await props.searchParams;
+   const query = searchParams?.query || '';
+   const currentPage = Number(searchParams?.page) || 1;
+   ...
+   <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+      <Table query={query} currentPage={currentPage} />
+   </Suspense>
+   ```
+   Navigating to the `<Table>` component we find two props `query` and `currentPage` passed to the `fetchFilteredInvoices()` functions returns invoices matching query.
+   _if you want to read the params from the client, use the `useSearchParams()` hook as this avoids having to go back to the server else use `searchParams`._
