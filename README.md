@@ -3,7 +3,6 @@
 ## Resource 0
 
 ### Get ready with Go
-~ Akshat
 1. Intro to Golang : https://youtu.be/F3klnY_r8FU?si=5qeAya0x56Xf9TFx
 2. Go Installation:  https://go.dev/doc/install
 3. Try Go by examples till **Multiple Return value** https://gobyexample.com/ Or you can check out Go Tour https://go.dev/tour/welcome/1 , which includes interactive code examples for basic syntax.
@@ -12,8 +11,6 @@
 ## Resource 1
 
 ### Lets clear some basics
-~ Manas
-
 We will be using Next.js for our project 
 1. learn difference between Next.js and react https://nextjs.org/learn/react-foundations/what-is-react-and-nextjs (5 min read)
 2.  You can follow this https://nextjs.org/learn/react-foundations according to your requirements, whatever topics you feel is unknown to you read that. There are 10 chapters, if you have slight idea and feel difficult in implementing then just read the chapter 10.
@@ -86,8 +83,40 @@ As we say you to document, we mean you to think and provide us the following dat
 6. ⁠Resources for docker https://docker-curriculum.com (you may skip the part of aws, or try by creating a free tier account, i would recommend doing that) This guide is a bit old, but covers almost every basic concept beautiful 🙂
 
 
+## Resource 4
 
-# Todos
-1. How to integrate Tailwind with Storybook
+1. https://marcospereirajr.com.br/using-nginx-as-api-gateway-7bebb3614e48 Read the article step-by-step and run it locally to see how each part of the Nginx API Gateway works in practice.
+2. https://hackmd.io/@Akshat23/Hy-rRxmGee this guide supplements the article listed above.
 
 
+## Discussion
+We hope, you got enough time to get familiar with next.js and Its time to start working on our final project 🙂
+
+The basic design (for ui, same for backend will be shared soon) for our application is as followed:
+
+1. Admin side
+![Admin Side](/images/adminside.svg)
+
+2. User side
+![User Side](/images/userside.svg)
+
+Do the following things:
+1. Write a structured review for all the parts listed in design.
+2. In the Report ⁠Suggest what enhancements we can do, or are we missing something?
+3. ⁠Find and list similar components which we can use from ui libraries (please first check, they should be compatible with next js)
+4. Discussion is the key, keep discussing and sharing whatever you find.
+
+
+## Resource 5
+Go server basics
+
+
+## Go server workflow
+
+
+## Work Distribution
+
+
+## What are we using:
+List all the libraries here, so we can maintain consistency by using other components form the same library
+1. https://heroicons.dev/ for icons
