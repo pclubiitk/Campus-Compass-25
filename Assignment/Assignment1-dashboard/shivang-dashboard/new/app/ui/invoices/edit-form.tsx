@@ -9,6 +9,9 @@ import {
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
 import { Button } from '@/app/ui/button';
+import { updateInvoice, State } from '@/app/lib/actions';
+import { useActionState } from 'react';
+
 
 export default function EditInvoiceForm({
   invoice,
@@ -17,8 +20,15 @@ export default function EditInvoiceForm({
   invoice: InvoiceForm;
   customers: CustomerField[];
 }) {
+  const initialState: State = { message: null, errors: {} };
+  const updateInvoiceWithId = updateInvoice.bind(null, invoice.id); //the first argument that bind specifies is this keyword
+                                                                    //if it is used in the function in our function it is not
+                                                                    //used so we passed null there and all other argument will
+                                                                    //then follow the order first id:string and then formData
+  const [state, formAction] = useActionState(updateInvoiceWithId, initialState);
+
   return (
-    <form>
+    <form action={formAction}>
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">
