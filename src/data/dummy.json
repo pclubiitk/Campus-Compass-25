@@ -1,0 +1,30 @@
+[
+    {
+      "title": "Total Users",
+      "value": 12000,
+      "actions": [
+        {
+          "icon": "bar-chart",
+          "text": "Stats",
+          "onClick": "handleStats"
+        }
+      ]
+    },
+    {
+      "title": "Active Sessions",
+      "value": "1.5K",
+      "actions": [
+        {
+          "icon": "settings",
+          "text": "Configure",
+          "onClick": "handleConfigure"
+        },
+        {
+          "icon": "bar-chart",
+          "text": "Graph",
+          "onClick": "handleGraph"
+        }
+      ]
+    }
+  ]
+  
