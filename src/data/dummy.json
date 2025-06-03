@@ -1,0 +1,33 @@
+[
+  {
+    "title": "Registered Users",
+    "value": 12400,
+    "progress": {
+      "label": "Unchecked Requests",
+      "percent": 70
+    },
+    "actions": [
+      {
+        "icon": "bar-chart",
+        "text": "Stats",
+        "onClick": "handleStats"
+      }
+    ]
+  },
+  {
+    "title": "Active Sessions",
+    "value": "10000",
+    "actions": [
+      {
+        "icon": "settings",
+        "text": "Settings",
+        "onClick": "handleConfigure"
+      },
+      {
+        "icon": "bar-chart",
+        "text": "Stats",
+        "onClick": "handleGraph"
+      }
+    ]
+  }
+]
