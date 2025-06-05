@@ -1,0 +1,17 @@
+Index: compass/public/data.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>[\r\n  {\r\n    \"id\": \"1\",\r\n    \"name\": \"Students' Activity Center\",\r\n    \"average_rating\": 4,\r\n    \"desc\": \"IIT Kanpur provides rooms for all the clubs of Students’ Gymkhana in its Student Activity Centre (SAC) which is the hub of all the extracurricular activities of students. It also houses Open Air Theatre (OAT) with a seating capacity of over 1400 people which is used in almost every inter-hall competition like Galaxy, Takneek etc.\",\r\n\r\n    \"reviews\": [\r\n      {\r\n        \"author\": \"Mr. Kumar\",\r\n        \"body\": \"Very nice place, all-nighters at OAT are the best!\",\r\n        \"rating\": 4\r\n      },\r\n      {\r\n        \"author\": \"Mrs. Srivastav\",\r\n        \"body\": \"Too many dogs\",\r\n        \"rating\": 2\r\n      },\r\n      {\r\n        \"author\": \"Rohan\",\r\n        \"body\": \"My girlfriend broke up with me here :(\",\r\n        \"rating\": 1\r\n      }\r\n    ]\r\n\r\n  },\r\n  {\r\n    \"id\": \"2\",\r\n    \"name\": \"Cafe Coffee Day\",\r\n    \"average_rating\": 3,\r\n    \"desc\": \"CCD (Café Coffee Day) at IIT Kanpur is a popular hangout spot for students, faculty, and visitors. Located near the Library Fountains, it offers a cozy environment to relax, chat, or work on assignments over a cup of coffee. With a variety of snacks, beverages, and light meals, CCD serves as both a casual meeting place and a late-evening refreshment hub on campus.\",\r\n    \"reviews\": [\r\n      {\r\n        \"author\": \"Mrs. Singh\",\r\n        \"body\": \"Cool vibe, a pricey tho\",\r\n        \"rating\": 3\r\n      },\r\n      {\r\n        \"author\": \"Mrs. Gupta\",\r\n        \"body\": \"Love the Devil's Own shake, give it a try\",\r\n        \"rating\": 4\r\n      }\r\n    ]\r\n  }\r\n]
+===================================================================
+diff --git a/compass/public/data.json b/compass/public/data.json
+--- a/compass/public/data.json	(revision d18405e64a83812d8e6cd1d5b0a105fa2a277b11)
++++ b/compass/public/data.json	(date 1748958336907)
+@@ -36,7 +36,7 @@
+         "rating": 3
+       },
+       {
+-        "author": "Mrs. Gupta",
++        "author": "Mr. Gupta",
+         "body": "Love the Devil's Own shake, give it a try",
+         "rating": 4
+       }
