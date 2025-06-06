@@ -1,0 +1,52 @@
+React Server Actions allow you to run asynchronous code directly on the server. They eliminate the need to create API endpoints
+to mutate your data. Instead, you write asynchronous functions that execute on the server and can be invoked from your Client
+or Server Components.
+
+basically hum ek client component mai bhi server action ka use kar sakte hai.vo kaise? chalo dekhte hai.
+************************************************************************************************************************
+// app/page.tsx (Server Component)
+export default function Page() {
+  // Server Action
+  async function create(formData: FormData) {
+    'use server';
+
+    // Logic to mutate data...
+    const email = formData.get('email');
+    console.log('Submitted email:', email);
+  }
+
+  // Pass the action to a Client Component
+  return <ClientForm create={create} />;
+}
+
+
+
+
+// components/ClientForm.tsx
+'use client';
+
+export default function ClientForm({ create }: { create: (formData: FormData) => void }) {
+  return (
+    <form action={create}>
+      <input type="email" name="email" required />
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+************************************************************************************************************************
+
+the approch used in tutorial for server action is to put all of the functions in a action.ts file having 'use server' directive and then calling them wherever we want either in server component or client componentby importing it we can not make a server action in a client element
+
+
+server action use karne ka matlab bas ye hota ki kaam hum us form ke data se karvana chate the like apne backend ko query karna
+ya phir kuch bhi aur vo kaam ab humara frontend ka server karega na ki client browser network request mai apni hi site ko
+request marta hua dikhta
+
+
+
+
+***Some reactish talk
+Good to know: In HTML, you'd pass a URL to the action attribute. This URL would be the destination where your form data should
+be submitted (usually an API endpoint).However, in React, the action attribute is considered a special prop - meaning React
+builds on top of it to allow actions to be invoked.Behind the scenes, Server Actions create a POST API endpoint. This is why
+you don't need to create API endpoints manually when using Server Actions.
