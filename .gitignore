@@ -1,7 +1,10 @@
 "node_modules/"
+<<<<<<< HEAD
+=======
 
 # file system auto generated files
 **/.DS_Store
 
 # secrets file
 compass/server/secret.yml
+>>>>>>> dbdfda277a0dac395db0ec20107795c6063bbf97
