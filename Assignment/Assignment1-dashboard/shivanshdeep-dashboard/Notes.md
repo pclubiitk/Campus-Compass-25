@@ -105,3 +105,30 @@ import { usePathname } from 'next/navigation';
   - at component level, using `<Suspense>`
 
     - Wrap each skeleton in `<Suspense>`.
+
+## Ch11
+
+### Search
+
+- In order to implement search, we used the URL Search Params: this is when the search is integrated directly into the url of the page
+- ```useSearchParams:```helps access the params of the current url
+- ```usePathname:``` lets you read the current url's pathname
+- ```useRouter:```a react hook that helps use interact with the router from within a component.
+
+We pass these search params as a prop for the page component and update the table.
+
+Debouncing: 
+In the absence of this, URL is updated every keystroke, this is a prob when it scales. so use this to call handleSearch only after fixed time intervals
+
+### Pagination
+
+We use pagination to view all invoices that match a search result(if any).
+
+- createPageURL creates an instance of the current search parameters.
+- Then, it updates the "page" parameter to the provided page number.
+- Finally, it constructs the full URL using the pathname and updated search parameters.
+
+## Ch12
+
+### Server Actions
+lets you run server-side functions directly from your components—without needing an API route.
