@@ -4,21 +4,12 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d641515c-6fd6-406b-868d-f473a077d243" name="Changes" comment="Assignment 2 done. Wrote a sender and receiver file using rabbitMQ for message queuing for adding, getting, deleting and updating a location.">
-      <change afterPath="$PROJECT_DIR$/.idea/CampusCompass25.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_05-06-2025_00_24_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_05-06-2025_00_24_[Changes]1/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_05-06-2025_00_24__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assignment/Assignment2-shivanshdeep/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assignment/Assignment2-shivanshdeep/go.sum" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assignment/Assignment2-shivanshdeep/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assignment/Assignment2-shivanshdeep/receiver.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/compass/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compass/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/compass/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compass/server/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/compass/server/cmd/main.go" afterDir="false" />
+    <list default="true" id="991a183e-b12e-406d-8989-83fd7077391c" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/CampusCompass25.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CampusCompass25.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/compass/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/compass/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compass/server/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/compass/server/config.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compass/server/config/init.go" beforeDir="false" afterPath="$PROJECT_DIR$/compass/server/config/init.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/compass/server/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/compass/server/docker-compose.yml" afterDir="false" />
@@ -27,13 +18,6 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Go File" />
-      </list>
-    </option>
   </component>
   <component name="GOROOT" url="file://C:/Program Files/Go" />
   <component name="Git.Settings">
@@ -44,62 +28,46 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Bunch-Of-Molecules&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Bunch-Of-Molecules"
   }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Bunch-Of-Molecules/Campus-Compass-25.git&quot;,
-    &quot;accountId&quot;: &quot;41ccc4dc-2ec9-4743-b12f-beeada89f227&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Bunch-Of-Molecules/Campus-Compass-25.git",
+    "accountId": "41ccc4dc-2ec9-4743-b12f-beeada89f227"
   }
-}</component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 4
-}</component>
-  <component name="ProjectId" id="2xs2IZhmh7sg2yp0WnInZRZAdEg" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2yoWI3kOuBb5AmdPdhVvLx7exI3" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.GoLinterPluginOnboarding&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.GoLinterPluginStorageMigration&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Personal Projects/CampusCompass25&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\Personal Projects\\CampusCompass25\\Assignment\\Assignment1-dashboard\\shivanshdeep-dashboard\\node_modules\\typescript\\lib&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.GoLinterPluginOnboarding": "true",
+    "RunOnceActivity.GoLinterPluginStorageMigration": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "git-widget-placeholder": "main",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "C:/Users/shiva",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm"
   }
-}</component>
-  <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Personal Projects\CampusCompass25\compass\public" />
-      <recent name="D:\Personal Projects\CampusCompass25\compass" />
-      <recent name="D:\Personal Projects\CampusCompass25\compass\components\images" />
-      <recent name="D:\Personal Projects\CampusCompass25\compass\app\components\user" />
-      <recent name="D:\Personal Projects\CampusCompass25\compass\app\components" />
-    </key>
-  </component>
+}]]></component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -110,24 +78,16 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d641515c-6fd6-406b-868d-f473a077d243" name="Changes" comment="" />
-      <created>1748712381773</created>
+      <changelist id="991a183e-b12e-406d-8989-83fd7077391c" name="Changes" comment="" />
+      <created>1750501324626</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1748712381773</updated>
+      <updated>1750501324626</updated>
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="initial commit for review feature" />
-    <MESSAGE value="second commit for review feature" />
-    <MESSAGE value="Review Writing Frontend Implemented" />
-    <MESSAGE value="Added fetch functions for reviews and places" />
-    <MESSAGE value="Assignment 2 done. Wrote a sender and receiver file using rabbitMQ for message queuing for adding, getting, deleting and updating a location." />
-    <option name="LAST_COMMIT_MESSAGE" value="Assignment 2 done. Wrote a sender and receiver file using rabbitMQ for message queuing for adding, getting, deleting and updating a location." />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
