@@ -1,0 +1,1 @@
+this route grouping prevents the effect loading.tsx on the page of invoice
