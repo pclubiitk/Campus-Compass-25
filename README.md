@@ -186,6 +186,12 @@ Moving on to the backend design:
 To understand server workflow it is recommended to read all the file at https://github.com/pclubiitk/Campus-Compass-25/tree/e35e1f6e12eb1adc80c5906de6cb0584eec5c500/compass/server
 
 ## Work Distribution Backend
+1. Ritika, Aashutosh will be working on middleware and login
+2. Shivang, Utkarsh  will be working on noticeboard related routes 
+3. Yatin, Ujjwal, will be working on user dashboard routes 
+4. ⁠Muragesh, Shivam sha will be working on review and location features.
+5. ⁠Aditya, Vineesh, Shivanshdeep will be working on the mailing bot + indicator logic + email verfication
+6. ⁠Archit, Himanshu will be working on the moderation bot.
 
 ## What are we using:
 
