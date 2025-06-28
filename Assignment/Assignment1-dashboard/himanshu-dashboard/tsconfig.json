@@ -18,15 +18,12 @@
         "name": "next"
       }
     ],
-<<<<<<< HEAD
     "paths": {
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-=======
-    "baseUrl": ".",
-    "paths": {
+  "baseUrl": ".",
+  "paths": {
       "@/*": ["./*"]
     }
   },
@@ -38,6 +35,5 @@
     "app/lib/placeholder-data.ts",
     "scripts/seed.js"
   ],
->>>>>>> dbdfda277a0dac395db0ec20107795c6063bbf97
   "exclude": ["node_modules"]
 }
