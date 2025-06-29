@@ -4,6 +4,7 @@ import (
 	"compass/connections"
 	"encoding/json"
 	"fmt"
+
 	// amqp "github.com/rabbitmq/amqp091-go"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -94,7 +95,7 @@ func MailingWorker() error {
 	/*for {
 	// Connect to the mail queue in the message broker
 
-		//
+		// working dir setup
 
 		// Process the mails
 
