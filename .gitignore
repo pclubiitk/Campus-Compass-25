@@ -5,3 +5,4 @@
 
 # secrets file
 compass/server/secret.yml
+.env
