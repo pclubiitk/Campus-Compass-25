@@ -7,13 +7,16 @@ import "maplibre-gl/dist/maplibre-gl.css";
 import { Button } from "@/components/ui/button";
 import { Plus, Minus, LocateFixed } from "lucide-react";
 
-export default function Map() {
+type MapProps = {
+  onMarkerClick: () => void;
+};
+
+export default function Map({ onMarkerClick }: MapProps) {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<maplibregl.Map | null>(null);
   const markerRef = useRef<maplibregl.Marker | null>(null);
   const [isReady, setIsReady] = useState(false);
 
-  // 🔒 Proactively request location permission on mount
   useEffect(() => {
     if (typeof window !== "undefined" && "permissions" in navigator) {
       navigator.permissions
@@ -44,9 +47,19 @@ export default function Map() {
           zoom: 14,
         });
 
+        // Allow map double click zoom (no disabling needed)
+
         const marker = new maplibregl.Marker({ color: "#f00" })
           .setLngLat([coords.longitude, coords.latitude])
           .addTo(map);
+
+        // Add single click event on marker element
+        const markerEl = marker.getElement();
+        markerEl.style.cursor = "pointer";
+        markerEl.addEventListener("click", (e) => {
+          e.stopPropagation();
+          onMarkerClick();
+        });
 
         mapRef.current = map;
         markerRef.current = marker;
@@ -60,10 +73,23 @@ export default function Map() {
 
           if (markerRef.current) {
             markerRef.current.setLngLat([lng, lat]);
+            // Reattach single click listener on moved marker element
+            const el = markerRef.current.getElement();
+            el.style.cursor = "pointer";
+            el.addEventListener("click", (ev) => {
+              ev.stopPropagation();
+              onMarkerClick();
+            });
           } else {
             const newMarker = new maplibregl.Marker({ color: "#f00" })
               .setLngLat([lng, lat])
               .addTo(map);
+            const el = newMarker.getElement();
+            el.style.cursor = "pointer";
+            el.addEventListener("click", (ev) => {
+              ev.stopPropagation();
+              onMarkerClick();
+            });
             markerRef.current = newMarker;
           }
         });
@@ -74,10 +100,22 @@ export default function Map() {
 
           if (markerRef.current) {
             markerRef.current.setLngLat([lng, lat]);
+            const el = markerRef.current.getElement();
+            el.style.cursor = "pointer";
+            el.addEventListener("click", (ev) => {
+              ev.stopPropagation();
+              onMarkerClick();
+            });
           } else {
             const newMarker = new maplibregl.Marker({ color: "#f00" })
               .setLngLat([lng, lat])
               .addTo(map);
+            const el = newMarker.getElement();
+            el.style.cursor = "pointer";
+            el.addEventListener("click", (ev) => {
+              ev.stopPropagation();
+              onMarkerClick();
+            });
             markerRef.current = newMarker;
           }
         });
@@ -95,7 +133,7 @@ export default function Map() {
         mapRef.current = null;
       }
     };
-  }, [isReady]);
+  }, [isReady, onMarkerClick]);
 
   const handleZoomIn = () => {
     if (mapRef.current) mapRef.current.zoomIn();
@@ -114,10 +152,22 @@ export default function Map() {
           mapRef.current.flyTo({ center: [lng, lat], zoom: 14 });
           if (markerRef.current) {
             markerRef.current.setLngLat([lng, lat]);
+            const el = markerRef.current.getElement();
+            el.style.cursor = "pointer";
+            el.addEventListener("click", (ev) => {
+              ev.stopPropagation();
+              onMarkerClick();
+            });
           } else {
             const newMarker = new maplibregl.Marker({ color: "#f00" })
               .setLngLat([lng, lat])
               .addTo(mapRef.current);
+            const el = newMarker.getElement();
+            el.style.cursor = "pointer";
+            el.addEventListener("click", (ev) => {
+              ev.stopPropagation();
+              onMarkerClick();
+            });
             markerRef.current = newMarker;
           }
         }
