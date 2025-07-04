@@ -1,124 +1,87 @@
 "use client"
-// import * as React from "react"
 
-// import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
-// import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import { Calendar, MapPin, User } from "lucide-react";
+import { AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
-
-
-
-// export function NoticeCard({id,cardTitle,cardDescription,noticePreview,discription}:{id:string,cardTitle:string,cardDescription:string,noticePreview:string,discription: React.ReactNode}) {
-//   return (
-//       <AccordionItem id={id} value={id} className="border-0">
-//         <Card className="overflow-hidden">
-//           <CardHeader className="pb-0">
-//             <CardTitle>{cardTitle}</CardTitle>
-//             <CardDescription>{cardDescription}</CardDescription>
-//           </CardHeader>
-
-//           <CardContent className="pb-4">
-//             <div className="space-y-2">
-//               <p>{noticePreview}</p>
-
-//               {/* Wrap Button in a div when using asChild */}
-//                 <div onClick={() => {
-//                   if(window.location.hash.substring(1) !== id){
-//                     window.location.hash = id;
-//                     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-//                   }else{
-//                   }
-//                 }}>
-//                     <AccordionTrigger >
-//                         Read More
-//                     </AccordionTrigger>
-//                 </div>
-//               </div>
-
-
-//             <AccordionContent className="pt-4 px-0">
-//               {discription}
-//             </AccordionContent>
-
-//           </CardContent>
-//         </Card>
-//       </AccordionItem>
-//   )
-// }
-
-
-import { useEffect } from "react"
-import { AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
-
-type NoticeCardProps = {
-  id: string
-  cardTitle: string
-  cardDescription: string
-  noticePreview: string
-  isOpen:boolean
-  description: string
-}
-
-export default function NoticeCard({ id, cardTitle, cardDescription, noticePreview, isOpen, description }: NoticeCardProps) {
-  // Automatically scroll into view if the current hash matches this card's ID
-  useEffect(() => {
-    if (isOpen && window.location.hash.substring(1) === id) {
-      const el = document.getElementById(id)
-      if (el) {
-        const headerOffset = 80
-        const elementPosition = el.getBoundingClientRect().top
-        const offsetPosition = window.scrollY + elementPosition - headerOffset
-
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: 'smooth',
-        })
-      }
-    }
-  }, [isOpen, id])
-
+export default function NoticeCard({
+  id,
+  publisher,
+  date,
+  location,
+  cardTitle,
+  cardDescription,
+  noticePreview,
+  description,
+}: {
+  id: string;
+  publisher: string;
+  date: string | Date;
+  location: string;
+  cardTitle: string;
+  cardDescription: string;
+  noticePreview: string;
+  description: string;
+}) {
+  const formattedDate = new Date(date).toLocaleDateString("en-GB", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 
   return (
     <AccordionItem id={id} value={id} className="border-0">
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden shadow-md rounded-2xl border border-gray-200">
         <CardHeader className="pb-0">
-          <CardTitle>{cardTitle}</CardTitle>
-          <CardDescription>{cardDescription}</CardDescription>
+          <CardTitle className="text-xl font-semibold">{cardTitle}</CardTitle>
+          <CardDescription className="text-muted-foreground">{cardDescription}</CardDescription>
         </CardHeader>
 
-        <CardContent className="pb-4">
-          <div className="space-y-2">
-            <p>{noticePreview}</p>
+        <CardContent className="pb-4 space-y-4 text-sm">
+          <p className="text-base">{noticePreview}</p>
 
-            {/* Use asChild with a button for accessibility */}
-            <div onClick={() => {
-              if(window.location.hash.substring(1) !== id){
-                window.location.hash = id;
-                document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-              }else{
-              }
-            }}>
-              <AccordionTrigger>
-                <button
-                  onClick={() => {
-                    if (window.location.hash.substring(1) !== id) {
-                      window.location.hash = id
-                      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" ,block: "start"})
-                    }
-                  }}
-                  // className="text-left w-full font-medium text-blue-600 hover:underline"
-                >
-                  Read More
-                </button>
-              </AccordionTrigger>
+          <div className="flex justify-between">
+            <div className="flex p-1.5 rounded-full bg-[#8100ffad] items-center gap-2">
+              <User className="w-4 h-4" />
+              <span className="truncate">{publisher}</span>
+            </div>
+            <div className="flex p-1.5 rounded-full bg-[#8100ffad] items-center gap-2">
+              <Calendar className="w-4 h-4" />
+              <span>{formattedDate}</span>
+            </div>
+            <div className="flex p-1.5 rounded-full bg-[#8100ffad]  items-center gap-2">
+              <MapPin className="w-4 h-4" />
+              <span>{location}</span>
             </div>
           </div>
 
-          <AccordionContent>
-            <div dangerouslySetInnerHTML={{ __html: description }} />
+          <div
+            onClick={() => {
+              const url = new URL(window.location.href);
+              if (window.location.hash.substring(1) !== id) {
+                url.hash = id;
+                window.history.replaceState(null, "", url.toString());
+                document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+              } else {
+                url.hash = "";
+                window.history.replaceState(null, "", url.toString());
+              }
+            }}
+            className="w-max"
+          >
+            <AccordionTrigger className="font-medium">
+              Read More
+            </AccordionTrigger>
+          </div>
+
+          <AccordionContent className="pt-4">
+            <div
+              className="prose max-w-none"
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
           </AccordionContent>
         </CardContent>
       </Card>
     </AccordionItem>
-  )
+  );
 }

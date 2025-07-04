@@ -2,14 +2,13 @@
 # Define things like DB name, ports, JWT expiry, etc.
 # remember to put all the fields
 database:
-  host: "localhost"
-  name: "compass"
-  user: "this_is_mjk"
-
+  host: "postgres"        # <-- service name in docker-compose
+  name: "postgres"
+  user: "postgres"
   port: 5432
 
 rabbitmq:
-  host: "localhost"
+  host: "rabbitmq"        # <-- service name
   user: "guest"
   password: "guest"
   mailqueue: "mail_queue"

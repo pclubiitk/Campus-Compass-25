@@ -13,8 +13,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Laptop, Moon, Sun } from "lucide-react"
-import { RoseIcon } from "./icons/RoseIcon"
-import { StonesFloorIcon } from "./icons/StonesFloorIcon"
 import { useTheme } from "next-themes";
 
 // type Checked = DropdownMenuCheckboxItemProps["checked"]
@@ -37,16 +35,6 @@ export function ThemeDD() {
   <Moon className="mr-2 h-4 w-4" />
   <span>Dark</span>
   </>
-  )},{theme:"theme-rose",children:(
-  <>
-  <RoseIcon  className="mr-2 h-4 w-4 fill-[var(--icon-fill)]" style={{}} />
-  <span>Rose</span>
-  </>
-  )},{theme:"theme-slate",children:(
-  <>
-    <StonesFloorIcon style={{}} className="mr-2 h-4 w-4 text-stone-600 fill-[var(--icon-fill)]" />
-    <span>Slate</span>
-  </>
   )}]
 
 
@@ -60,24 +48,16 @@ export function ThemeDD() {
 
   // Handle initial load and system preference
   React.useEffect(() => {
-    const html = document.documentElement;
+  const html = document.documentElement;
+  html.classList.remove('light', 'dark');
 
-    // Clear all theme classes
-    html.classList.remove('light', 'dark', 'theme-rose', 'theme-slate');
-
-    if (theme === 'system') {
-      const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      html.classList.toggle('dark', isDark);
-    } else if (theme === 'dark') {
-      html.classList.add('dark');
-    } else if (theme === 'light') {
-      html.classList.add('light');
-    } else if (theme === 'theme-rose') {
-      html.classList.add('theme-rose');
-    } else if (theme === 'theme-slate') {
-      html.classList.add('theme-slate');
-    }
-  }, [theme]);
+  if (theme === 'system') {
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    html.classList.toggle('dark', isDark);
+  } else {
+    html.classList.add(theme?theme:""); // theme is either 'light', 'dark', 'theme-rose', or 'theme-slate'
+  }
+}, [theme]);
 
 
 

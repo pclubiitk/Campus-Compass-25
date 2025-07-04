@@ -1,35 +1,27 @@
 'use client';
 
-import {
-  NavigationMenu,
-  NavigationMenuList,
-  NavigationMenuItem,
-  NavigationMenuLink
-} from '@/components/ui/navigation-menu';
+import { Bell, MapPin, User } from 'lucide-react';
 import Link from 'next/link';
 
 export default function BottomNav() {
   return (
-    <div className="fixed bottom-0 w-full bg-white border-t shadow z-50">
-      <NavigationMenu className="w-full justify-around p-2">
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild>
-                <Link href="/">Home</Link>
-            </NavigationMenuLink>
-          </NavigationMenuItem>
+    <nav className="fixed bottom-0 left-0 w-full z-50 bg-white border-t shadow-md dark:bg-gray-900 dark:border-gray-700">
+      <div className="flex justify-around items-center py-2 text-gray-600 dark:text-gray-300">
+        <Link href="/notice" className="flex flex-col items-center gap-1 hover:text-blue-500 transition">
+          <Bell className="h-5 w-5" />
+          <span className="text-xs">Notices</span>
+        </Link>
 
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild>
-                <Link href="/profile">Profile</Link>    
-            </NavigationMenuLink>       
-          </NavigationMenuItem>
+        <Link href="/location" className="flex flex-col items-center gap-1 hover:text-blue-500 transition">
+          <MapPin className="h-5 w-5" />
+          <span className="text-xs">Locations</span>
+        </Link>
 
-          <NavigationMenuItem>
-            <NavigationMenuLink asChild>
-                <Link href="/share">Share</Link>    
-            </NavigationMenuLink>          
-          </NavigationMenuItem>
-      </NavigationMenu>
-    </div>
+        <Link href="/profile" className="flex flex-col items-center gap-1 hover:text-blue-500 transition">
+          <User className="h-5 w-5" />
+          <span className="text-xs">Profile</span>
+        </Link>
+      </div>
+    </nav>
   );
 }
