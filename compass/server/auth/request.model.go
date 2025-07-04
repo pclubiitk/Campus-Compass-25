@@ -7,6 +7,6 @@ type SignUpRequest struct {
 	Password string `json:"password" binding:"required"`
 }
 
-type LoginRequest struct {
-	// complete it accordingly
-}
+// type LoginRequest struct {
+// 	// complete it accordingly
+// }
