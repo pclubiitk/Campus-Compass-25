@@ -25,3 +25,17 @@ smtp:
   port: 587
   user: test@gmail.com
   pass: test-mail-password
+
+jwt:
+  secret_key: "my-256-bit-secret"  
+  expiration: "24h"  
+
+logging:
+  level: "debug"
+  format: "json"
+  file: "logs/app.log"
+  max_size: 10      # MB
+  max_backups: 3
+  max_age: 30       # days
+
+environment: "production" 

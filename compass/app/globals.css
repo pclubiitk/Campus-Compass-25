@@ -375,3 +375,41 @@
   }
 }
 
+/* Prevent text size inflation on mobile */
+@supports (-webkit-touch-callout: none) {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+}
+
+/* Better tap targets */
+@media (pointer: coarse) {
+  button, a, [role="button"] {
+    min-width: 48px;
+    min-height: 48px;
+  }
+}
+
+.scroll-container {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scroll-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* Add this to your global CSS */
+.snap-x {
+  scroll-snap-type: x mandatory;
+}
+.snap-start {
+  scroll-snap-align: start;
+}
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+.overflow-x-auto::-webkit-scrollbar {
+  display: none;
+}
+
