@@ -2,6 +2,7 @@ package maps
 
 import (
 	"compass/connections"
+	"compass/model"
 	"encoding/json"
 	"os"
 
@@ -9,9 +10,10 @@ import (
 	"image/jpeg"
 	"image/png"
 
+	"strings"
+
 	"github.com/gin-gonic/gin"
 	"github.com/rabbitmq/amqp091-go"
-	"strings"
 )
 
 func addReview(c *gin.Context) {
@@ -71,7 +73,13 @@ func addReview(c *gin.Context) {
 		}
 
 		reqModel.ImageURL = "/" + imagePath
-	} else {
+
+		var location model.Location
+		if err := connections.DB.First(&location, reqModel.LocationId).Error; err == nil {
+			
+			location.Images= append(location.Images, reqModel.ImageURL)
+			connections.DB.Model(&location).Update("imgurl", location.Images)
+		}
 		reqModel.ImageURL = ""
 	}
 

@@ -16,6 +16,9 @@ type Location struct {
 	LocationId    string   `gorm:"uniqueIndex" json:"location_id"`
 	Name          string   `json:"name" binding:"required"`
 	Description   string   `json:"description"`
+	Contact 	 string   `json:"contact"` // contact number or email
+	Timings       string   `json:"timings"` // opening and closing timings
+	Tag 		 string   `json:"tag"`     // tags like food, shopping, etc.
 	Latitude      float32  `json:"latitude" binding:"required"`
 	Longitude     float32  `json:"longitude" binding:"required"`
 	Status        Status   `gorm:"type:varchar(20);check:status IN ('pending','approved','rejected')"` // once the location is approved by the admin it will be publicly available
@@ -23,6 +26,7 @@ type Location struct {
 	User          User     `gorm:"foreignKey:ContributedBy;references:UserID"`                         // many location to single user binding
 	AverageRating float32  `json:"avg_rating"`
 	ReviewCount   int64    `json:"ReviewCount"`
+	Images        []string `gorm:"type:text[]" json:"images"` // array of image URLs
 	Reviews       []Review `gorm:"foreignKey:LocationId;references:LocationId"` // one location to multi review binding
 }
 
@@ -44,6 +48,7 @@ type Review struct {
 	Rating        float32 `json:"rating"`
 	Status        Status  `gorm:"type:varchar(20);check:status IN ('pending','approved','rejected', 'rejectedByBot')"` // as the user writes a review put the review in the database with pending
 	ContributedBy string  `json:"contributedBy"`                                                                       // This is the foreign key
+	Discription   string  `json:"discription" binding:"required"` // the review body 
 	LocationId    string  `json:"location_id"`
 	User          User    `gorm:"foreignKey:ContributedBy;references:UserID"`
 	ImageURL   string  `json:"image_url"`
