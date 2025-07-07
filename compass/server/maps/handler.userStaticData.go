@@ -107,7 +107,7 @@ func locationDetailProvider(c *gin.Context) {
 }
 
 func reviewProvider(c *gin.Context) {
-	locationID := c.Query("id")
+	locationID := c.Param("id")
 	if locationID == "" {
 		c.JSON(400, gin.H{"error": "location_id is required"})
 		return

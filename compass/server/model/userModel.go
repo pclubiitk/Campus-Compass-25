@@ -1,6 +1,7 @@
 package model
 
-import "gorm.io/gorm"
+import ("gorm.io/gorm" 
+	"github.com/lib/pq" )
 
 type Status string
 
@@ -26,7 +27,7 @@ type Location struct {
 	User          User     `gorm:"foreignKey:ContributedBy;references:UserID"`                         // many location to single user binding
 	AverageRating float32  `json:"avg_rating"`
 	ReviewCount   int64    `json:"ReviewCount"`
-	Images        []string `gorm:"type:text[]" json:"images"` // array of image URLs
+	 Images pq.StringArray `gorm:"type:text[]" json:"images"` // array of image URLs
 	Reviews       []Review `gorm:"foreignKey:LocationId;references:LocationId"` // one location to multi review binding
 }
 
