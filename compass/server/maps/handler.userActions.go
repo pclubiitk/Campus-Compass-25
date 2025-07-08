@@ -39,7 +39,7 @@ func addReview(c *gin.Context) {
 	if err == nil {
 		defer file.Close()
 
-		imageDir := "uploads/reviews/"
+		imageDir := "../uploads/reviews/"
 		if err := ensureDir(imageDir); err != nil {
 			c.JSON(500, gin.H{"error": "Failed to create directory for image"})
 			return
@@ -75,7 +75,7 @@ func addReview(c *gin.Context) {
 			return
 		}
 
-		reqModel.ImageURL = "/" + imagePath
+		reqModel.ImageURL = "/uploads/reviews/" + header.Filename
 
 		
 		var location model.Location
