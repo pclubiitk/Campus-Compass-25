@@ -7,6 +7,7 @@ type ReviewProps = {
   rating: number;
   review_body: string;
   time?: string; 
+  img: string | null; 
 };
 //we could have used predifined fun ,but i am getting some error with that
 
@@ -41,10 +42,14 @@ export default function ReviewCard({
   rating,
   review_body,
   time,
+  img
 }: ReviewProps) {
   return (
     <Card className="mx-3 my-3 py-0 gap-0 bg-gray-50">
       <div className="mx-4 py-3">
+      {img && (
+        <img src={img} alt="Review Image" className="w-full h-48 object-cover rounded-md mb-3" />
+      )}
         <div className='flex items-center justify-between mb-2'>
         <CardTitle className="text-lg text-black py-1 my-0">{author}</CardTitle>
         {time && (

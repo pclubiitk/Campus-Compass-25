@@ -8,6 +8,7 @@ import (
 )
 
 func Router(r *gin.Engine) {
+	r.Static("/uploads/reviews", "../cmd/uploads/reviews")
 	maps := r.Group("/api/maps")
 	{
 		// Public routes, will not require login, static data providers

@@ -15,6 +15,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/rabbitmq/amqp091-go"
 )
+func ensureDir(dirName string) error {
+	err := os.MkdirAll(dirName, 0755)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 func addReview(c *gin.Context) {
 	if err := c.Request.ParseMultipartForm(10 << 20); err != nil {
@@ -32,7 +39,6 @@ func addReview(c *gin.Context) {
 	if err == nil {
 		defer file.Close()
 
-
 		imageDir := "uploads/reviews/"
 		if err := ensureDir(imageDir); err != nil {
 			c.JSON(500, gin.H{"error": "Failed to create directory for image"})
@@ -40,15 +46,12 @@ func addReview(c *gin.Context) {
 		}
 
 		imagePath := imageDir + header.Filename
-
-
 		img, format, err := image.Decode(file)
 		if err != nil {
 			c.JSON(400, gin.H{"error": "Unsupported or invalid image format"})
 			return
 		}
 
-	
 		out, err := os.Create(imagePath)
 		if err != nil {
 			c.JSON(500, gin.H{"error": "Failed to create image file"})
@@ -74,13 +77,12 @@ func addReview(c *gin.Context) {
 
 		reqModel.ImageURL = "/" + imagePath
 
+		
 		var location model.Location
-		if err := connections.DB.First(&location, reqModel.LocationId).Error; err == nil {
-			
-			location.Images= append(location.Images, reqModel.ImageURL)
-			connections.DB.Model(&location).Update("imgurl", location.Images)
+		if err := connections.DB.Where("location_id = ?", reqModel.LocationId).First(&location).Error; err == nil {
+			location.Images = append(location.Images, reqModel.ImageURL)
+			connections.DB.Model(&location).Update("images", location.Images)
 		}
-		reqModel.ImageURL = ""
 	}
 
 	reqModel.Status = "pending"
@@ -95,6 +97,7 @@ func addReview(c *gin.Context) {
 		c.JSON(500, gin.H{"error": "Failed to serialize review for moderation"})
 		return
 	}
+
 	err = connections.MQChannel.Publish(
 		"",
 		"moderate_review",
@@ -111,15 +114,6 @@ func addReview(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{"message": "Review submitted and pending moderation"})
-}
-
-// ensureDir checks if a directory exists, and creates it if not.
-func ensureDir(dirName string) error {
-	err := os.MkdirAll(dirName, 0755)
-	if err != nil {
-		return err
-	}
-	return nil
 }
 
 func requestLocationAddition(c *gin.Context) {

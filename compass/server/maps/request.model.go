@@ -10,13 +10,16 @@ type User struct {
 }
 
 type AddReview struct {
-	Rating     float32 `json:"rating"`
-	Status     string  `gorm:"type:varchar(20);check:status IN ('pending','approved','rejected', 'rejectedByBot')"`
-	LocationId string  `json:"location_id"`
-	User       string  `json:"UserID"`
-	ImageURL   string  `json:"image_url"`
+    Rating      float32 `form:"rating"`
+    Status      string  `gorm:"type:varchar(20)" form:"status"`
+    LocationId string  `form:"location_id"`
+    ContributedBy   string  `form:"contributed_by"`
+    Discription string  `form:"discription"`
+    ImageURL    string  `form:"image_url"` 
 }
-
+func (AddReview) TableName() string {
+    return "reviews"
+}
 
 type RequestAddLocation struct {
 	Id int `json:"id"` // have to make unique or auto-increment

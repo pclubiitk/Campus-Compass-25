@@ -88,9 +88,50 @@ export default function LocationPage() {
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating % 1 >= 0.5;
 
+const handleReviewSubmit = async () => {
+  const form = document.querySelector("form")!;
+  const formData = new FormData(form);
+
+  const rating = form.querySelector<HTMLInputElement>('input[name="rating-2"]:checked')?.getAttribute("aria-label")?.[0];
+  const description = (form.querySelector("textarea") as HTMLTextAreaElement)?.value;
+  const image = (form.querySelector('input[type="file"]') as HTMLInputElement)?.files?.[0];
+
+  if (!rating || !description) {
+    alert("Please provide both rating and description.");
+    return;
+  }
+
+  const payload = new FormData();
+  payload.append("rating", rating);
+  payload.append("contributed_by", "muragesh24"); 
+payload.append("location_id", id as string);
+  payload.append("discription", description); 
+  if (image) payload.append("image", image);
+
+  try {
+    const res = await fetch("http://localhost:8081/api/maps/reviews", {
+      method: "POST",
+      body: payload,
+    });
+// need to handle the multi page rendering of reviews
+    const data = await res.json();
+    if (res.ok) {
+      alert("Review submitted successfully!");
+    } else {
+      alert("Error: " + data.error);
+    }
+  } catch (err) {
+    console.error("Submit error:", err);
+    alert("Submission failed. Try again.");
+  }
+};
+
+
+
   return (
     <div className="a">
       <div className="p-0 w-full max-w-md mx-auto my-0 pb-0">
+        {/* its better admin to choose the banner photo by the admin, else we can randomly use first photo .... */}
         <Image
           src="https://www.iitk.ac.in/hall11/img/portfolio/02-large.jpg"
           alt="image"
@@ -191,7 +232,8 @@ export default function LocationPage() {
                <Drawer>
                     <DrawerTrigger asChild>
                       <div className="relative cursor-pointer w-[300px] h-[200px]">
-                        <Image src={img} alt={`Image ${i}`} fill className="rounded-md object-cover" />
+                        <Image src={`http://localhost:8081${img}`}
+ alt={`Image ${i}`} fill className="rounded-md object-cover" />
                         <div className="absolute inset-0 bg-black/0 hover:bg-black/20 transition rounded-md" />
                       </div>
                     </DrawerTrigger>
@@ -201,7 +243,8 @@ export default function LocationPage() {
                           <Button variant="outline">Close</Button>
                         </DrawerClose>
                         <DrawerTitle>
-                          <Image src={img} alt={`Image ${i}`} fill className="object-contain bg-black m-auto" />
+                        <Image src={`http://localhost:8081${img}`}
+alt={`Image ${i}`} fill className="object-contain bg-black m-auto" />
                         </DrawerTitle>
                         <DrawerDescription className="text-center text-white">
                           This is a photo description.
@@ -230,14 +273,8 @@ export default function LocationPage() {
 
               <form className="space-y-4 mt-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Your Name
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter your name"
-                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  />
+                
+                  
                 </div>
 
                 <div className="rating">
@@ -313,7 +350,7 @@ export default function LocationPage() {
                     </AlertDialogHeader>
                     <AlertDialogFooter>
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction>Done</AlertDialogAction>
+                      <AlertDialogAction onClick={handleReviewSubmit}>Done</AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
                 </AlertDialog>
@@ -340,6 +377,7 @@ export default function LocationPage() {
                   rating={review.rating}
                   review_body={review.discription}
                   time={review.CreatedAt}
+                  img={review.image_url ? `http://localhost:8081${review.image_url}` : null}
                 />
               ))}
             </div>
