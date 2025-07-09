@@ -5,6 +5,9 @@ import { ThemeDD } from "./components/ThemeDD";
 import BottomNav from "./components/bottomnav";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
+import { fuzzySearchWithFallback
+ } from "./components/fuzzySearch";
+
 
 // using --- https://ui.shadcn.com/docs/components/navigation-menu ---
 // for navigation bar
@@ -22,6 +25,19 @@ export default function Page() {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const [query, setQuery] = useState("");
   const [markers, setMarkers] = useState([]);
+  const [results,setResults]=useState<any[]>([]);
+
+    useEffect(() => {
+    if (query.trim().length > 0) {
+      fuzzySearchWithFallback(query).then((res) => {
+        console.log("Search Source:", res.source);
+        setResults(res.data);
+      });
+    }
+    if(query.trim().length==0){
+      setResults([])
+    }
+  }, [query]);
 
   useEffect(() => {
     mapRef.current = new maplibregl.Map({
@@ -105,8 +121,18 @@ export default function Page() {
           placeholder="Search a place..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+        
+          className="text-black"
           style={{ padding: "6px", width: "200px", marginRight: "8px" }}
         />
+        <div>
+        {results.map((loc, i) => (
+          <div key={i} className="p-2 border-b text-black">
+            <strong>{loc.name}</strong>
+            <p className="text-sm">{loc.description}</p>
+          </div>
+        ))}
+      </div>
         <button onClick={searchPlace} style={{ padding: "6px 12px" }}>
           Search
         </button>

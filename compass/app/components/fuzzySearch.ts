@@ -9,6 +9,8 @@ export async function getCachedLocations() {
 export async function fuzzySearchWithFallback(query: string, threshold = 0.3) {
   const locations = await getCachedLocations();
   const fuse = new Fuse(locations, {
+     keys: ['name'],
+     //later we can add other keys depending on the need
     includeScore: true,
     threshold, 
   });
@@ -21,18 +23,25 @@ export async function fuzzySearchWithFallback(query: string, threshold = 0.3) {
       data: results.map(r => r.item)
     };
   }
-  try {
-    const res = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
-    const data = await res.json();
-    return {
-      source: 'backend',
-      data
-    };
-  } catch (err) {
-    console.error('Backend search failed:', err);
-    return {
+  // we need to comment out it with correct api, i will do it after merging of codes
+  // try {
+  //   const res = await fetch(`/api/search?query=${encodeURIComponent(query)}`);
+  //   const data = await res.json();
+  //   return {
+  //     source: 'backend',
+  //     data
+  //   };
+  // } catch (err) {
+  //   console.error('Backend search failed:', err);
+  //   return {
+  //     source: 'none',
+  //     data: []
+  //   };
+  // }
+
+  return {
       source: 'none',
       data: []
     };
-  }
 }
+
