@@ -164,9 +164,40 @@ func locationDetailProvider(c *gin.Context) {
 	// Handle all the edge cases with suitable return http code, write them in the read me for later documentation
 
 }
+func cacheLocationProvider(c *gin.Context) {
+	startStr := c.Query("start")
+	endStr := c.Query("end")
+
+	start, err1 := strconv.Atoi(startStr)
+	end, err2 := strconv.Atoi(endStr)
+
+	if err1 != nil || err2 != nil || start < 1 || end < start {
+		c.JSON(400, gin.H{"error": "Invalid start or end"})
+		return
+	}
+
+	limit := end - start + 1
+	offset := start - 1
+
+	var locations []model.Location
+	err := connections.DB.
+		Model(&model.Location{}).
+		Where("status = ?", "approved").
+		Offset(offset).
+		Limit(limit).
+		Find(&locations).Error
+
+	if err != nil {
+		c.JSON(400, gin.H{"error": "Failed to fetch locations"})
+		return
+	}
+
+	c.JSON(200, locations)
+}
+
 
 func reviewProvider(c *gin.Context) {
-	locationID := c.Query("location_id")
+	locationID := c.Param("id")
 	if locationID == "" {
 		c.JSON(400, gin.H{"error": "location_id is required"})
 		return
@@ -205,11 +236,12 @@ func fetchReviewsByLocationID(locationID string, limit, offset int) ([]model.Rev
 	var total int64
 	db := connections.DB
 
-	if err := db.Model(&model.Review{}).Where("location_id = ?", locationID).Count(&total).Error; err != nil {
+	if err := db.Model(&model.Review{}).Where("location_id = ?", locationID).Where("status = ?", "approved").Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
 
 	if err := db.Where("location_id = ?", locationID).
+	Where("status = ?", "approved").
 		Order("created_at DESC").
 		Limit(limit).
 		Offset(offset).

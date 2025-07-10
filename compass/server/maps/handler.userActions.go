@@ -2,17 +2,27 @@ package maps
 
 import (
 	"compass/connections"
+	"compass/model"
 	"encoding/json"
-	"os"
+		"os"
+	"path/filepath"
 
 	"image"
 	"image/jpeg"
 	"image/png"
 
+	"strings"
+
 	"github.com/gin-gonic/gin"
 	"github.com/rabbitmq/amqp091-go"
-	"strings"
 )
+func ensureDir(dirName string) error {
+	err := os.MkdirAll(dirName, 0755)
+	if err != nil {
+		return err
+	}
+	return nil
+}
 
 func addReview(c *gin.Context) {
 	if err := c.Request.ParseMultipartForm(10 << 20); err != nil {
@@ -30,15 +40,18 @@ func addReview(c *gin.Context) {
 	if err == nil {
 		defer file.Close()
 
+		root, err := filepath.Abs(filepath.Join(".", ".."))
 
-		imageDir := "uploads/reviews/"
+
+        imageDir := filepath.Join(root, "uploads", "reviews")
+        println("Upload path:", imageDir)
+		
 		if err := ensureDir(imageDir); err != nil {
 			c.JSON(500, gin.H{"error": "Failed to create directory for image"})
 			return
 		}
 
-		imagePath := imageDir + header.Filename
-
+		imagePath := filepath.Join(imageDir, header.Filename)
 
 		img, format, err := image.Decode(file)
 		if err != nil {
@@ -46,7 +59,6 @@ func addReview(c *gin.Context) {
 			return
 		}
 
-	
 		out, err := os.Create(imagePath)
 		if err != nil {
 			c.JSON(500, gin.H{"error": "Failed to create image file"})
@@ -70,9 +82,14 @@ func addReview(c *gin.Context) {
 			return
 		}
 
-		reqModel.ImageURL = "/" + imagePath
-	} else {
-		reqModel.ImageURL = ""
+		reqModel.ImageURL = "/uploads/reviews/" + header.Filename
+
+		
+		var location model.Location
+		if err := connections.DB.Where("location_id = ?", reqModel.LocationId).First(&location).Error; err == nil {
+			location.Images = append(location.Images, reqModel.ImageURL)
+			connections.DB.Model(&location).Update("images", location.Images)
+		}
 	}
 
 	reqModel.Status = "pending"
@@ -87,6 +104,7 @@ func addReview(c *gin.Context) {
 		c.JSON(500, gin.H{"error": "Failed to serialize review for moderation"})
 		return
 	}
+
 	err = connections.MQChannel.Publish(
 		"",
 		"moderate_review",
@@ -103,15 +121,6 @@ func addReview(c *gin.Context) {
 	}
 
 	c.JSON(200, gin.H{"message": "Review submitted and pending moderation"})
-}
-
-// ensureDir checks if a directory exists, and creates it if not.
-func ensureDir(dirName string) error {
-	err := os.MkdirAll(dirName, 0755)
-	if err != nil {
-		return err
-	}
-	return nil
 }
 
 func requestLocationAddition(c *gin.Context) {
