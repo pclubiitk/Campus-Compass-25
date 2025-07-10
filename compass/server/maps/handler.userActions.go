@@ -4,7 +4,8 @@ import (
 	"compass/connections"
 	"compass/model"
 	"encoding/json"
-	"os"
+		"os"
+	"path/filepath"
 
 	"image"
 	"image/jpeg"
@@ -39,13 +40,19 @@ func addReview(c *gin.Context) {
 	if err == nil {
 		defer file.Close()
 
-		imageDir := "../uploads/reviews/"
+		root, err := filepath.Abs(filepath.Join(".", ".."))
+
+
+        imageDir := filepath.Join(root, "uploads", "reviews")
+        println("Upload path:", imageDir)
+		
 		if err := ensureDir(imageDir); err != nil {
 			c.JSON(500, gin.H{"error": "Failed to create directory for image"})
 			return
 		}
 
-		imagePath := imageDir + header.Filename
+		imagePath := filepath.Join(imageDir, header.Filename)
+
 		img, format, err := image.Decode(file)
 		if err != nil {
 			c.JSON(400, gin.H{"error": "Unsupported or invalid image format"})

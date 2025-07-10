@@ -11,7 +11,7 @@ type User struct {
 
 type AddReview struct {
     Rating      float32 `form:"rating"`
-    Status      string  `gorm:"type:varchar(20)" form:"status"`
+    Status     string  `gorm:"type:varchar(20);check:status IN ('pending','approved','rejected', 'rejectedByBot')"`
     LocationId string  `form:"location_id"`
     ContributedBy   string  `form:"contributed_by"`
     Discription string  `form:"discription"`

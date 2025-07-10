@@ -177,11 +177,12 @@ func fetchReviewsByLocationID(locationID string, limit, offset int) ([]model.Rev
 	var total int64
 	db := connections.DB
 
-	if err := db.Model(&model.Review{}).Where("location_id = ?", locationID).Count(&total).Error; err != nil {
+	if err := db.Model(&model.Review{}).Where("location_id = ?", locationID).Where("status = ?", "approved").Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
 
 	if err := db.Where("location_id = ?", locationID).
+	Where("status = ?", "approved").
 		Order("created_at DESC").
 		Limit(limit).
 		Offset(offset).
