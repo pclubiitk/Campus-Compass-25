@@ -3,12 +3,12 @@ import  InstallPWA  from './components/InstallPWA'
 import { MobileNavbar } from './components/MobileNavBar'
 
 
-export const metadata = {
-  title: 'Next.js PWA',
-  description: 'A Next.js PWA with App Router',
-  manifest: '/manifest.json',
-  themeColor: '#000000',
-}
+// export const metadata = {
+//   title: 'Next.js PWA',
+//   description: 'A Next.js PWA with App Router',
+//   manifest: '/manifest.json',
+//   themeColor: '#000000',
+// }
 
 // Define the props type
 interface RootLayoutProps {
@@ -34,14 +34,30 @@ interface RootLayoutProps {
 // }
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen">
+    
         <main className="px-4 py-6 text-base md:text-lg">
           {children}
             <MobileNavbar />
            <InstallPWA />
         </main>
-      </body>
-    </html>
+   
   )
+}
+
+// export const viewport = {
+//   themeColor: '#000000',
+//   width: 'device-width',
+//   initialScale: 1.0,
+// }
+
+export const viewport = {
+  themeColor: '#000000',
+  width: 'device-width',
+  initialScale: 1,
+}
+
+export const metadata = {
+  title: 'My App',
+  description: 'App description',
+  // NO themeColor here
 }

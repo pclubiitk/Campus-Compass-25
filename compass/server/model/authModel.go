@@ -1,7 +1,9 @@
 // Define structs like User, global to all
 package model
 
-import "gorm.io/gorm"
+import ( "gorm.io/gorm"
+"github.com/golang-jwt/jwt/v5"
+)
 
 type Role string
 
@@ -23,3 +25,10 @@ type User struct {
 	ContributedLocations []Location `gorm:"foreignKey:ContributedBy;references:UserID"`
 	ContributedReview    []Review   `gorm:"foreignKey:ContributedBy;references:UserID"`
 }
+
+// JWTClaims custom claims structure
+type JWTClaims struct {
+	UserID uint   `json:"user_id"`
+	Role   string `json:"role"`
+	jwt.RegisteredClaims
+} 

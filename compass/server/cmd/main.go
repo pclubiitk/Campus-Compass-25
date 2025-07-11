@@ -36,3 +36,82 @@ func main() {
 	}
 
 }
+// package main
+
+// import (
+// 	"compass/connections"
+// 	"compass/auth"
+// 	"compass/maps"
+// 	"compass/workers"
+// 	"time"
+
+// 	"github.com/sirupsen/logrus"
+// 	"golang.org/x/sync/errgroup"
+// 	"github.com/gin-gonic/gin"
+// )
+
+// const (
+// 	readTimeout  = 5 * time.Second
+// 	writeTimeout = 10 * time.Second
+// )
+
+// func main() {
+// 	// Initialize configuration and logging via connections package
+// 	// (assuming connections/viper.go and connections/logrous.go have init() functions)
+	
+// 	// Create an error group to handle errors together
+// 	var g errgroup.Group
+
+// 	// Set production mode if configured
+// 	// if connections.IsProduction() {
+// 	// 	logrus.Info("Running in production mode")
+// 	// 	// gin.SetMode(gin.ReleaseMode)
+// 	// }
+
+// 	if connections.IsProduction() {
+//     logrus.Info("Running in production mode")
+//     gin.SetMode(gin.ReleaseMode)
+    
+//     // Production-specific configuration
+//     logrus.SetFormatter(&logrus.JSONFormatter{})
+// } else {
+//     logrus.Debug("Running in development mode")
+//     // Development-specific configuration
+// }
+
+// 	// Start background workers
+// 	g.Go(func() error {
+// 		logrus.Info("Starting Moderator Worker")
+// 		return workers.ModeratorWorker()
+// 	})
+// 	g.Go(func() error {
+// 		logrus.Info("Starting Mailing Worker")
+// 		return workers.MailingWorker()
+// 	})
+
+// 	// Start servers with configured ports
+// 	g.Go(func() error {
+// 		server := auth.NewServer(
+// 			connections.GetAuthPort(),
+// 			readTimeout,
+// 			writeTimeout,
+// 		)
+// 		logrus.Infof("Auth server starting on :%s", connections.GetAuthPort())
+// 		return server.ListenAndServe()
+// 	})
+
+// 	g.Go(func() error {
+// 		server := maps.NewServer(
+// 			connections.GetMapsPort(),
+// 			readTimeout,
+// 			writeTimeout,
+// 		)
+// 		logrus.Infof("Maps server starting on :%s", connections.GetMapsPort())
+// 		return server.ListenAndServe()
+// 	})
+
+// 	logrus.Info("All services starting...")
+// 	if err := g.Wait(); err != nil {
+// 		logrus.Fatal("Service failed: ", err)
+// 	}
+// }

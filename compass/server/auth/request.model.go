@@ -7,6 +7,8 @@ type SignUpRequest struct {
 	Password string `json:"password" binding:"required"`
 }
 
+// LoginRequest defines the expected JSON payload for login
 type LoginRequest struct {
-	// complete it accordingly
+	Email    string `json:"email" binding:"required,email"`
+	Password string `json:"password" binding:"required,min=8"`
 }

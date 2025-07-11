@@ -9,7 +9,7 @@ import (
 func Router(r *gin.Engine) {
 	auth := r.Group("/api/auth")
 	{
-		auth.POST("/login", loginHandler)
+		auth.POST("/login", LoginHandler)
 		auth.POST("/signup", signupHandler)
 		auth.GET("/logout", logoutHandler)
 		auth.GET("/verify", verificationHandler)
