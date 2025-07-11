@@ -19,7 +19,7 @@ export default function Page() {
   const [suggestions, setSuggestions] = useState<LocationSuggestion[]>([]);
   const [markers, setMarkers] = useState<Marker[]>([]);
 
-  // Initialize MapLibre map
+  // Initializing MapLibre map
   useEffect(() => {
     if (mapContainerRef.current) {
       mapRef.current = new maplibregl.Map({
@@ -36,7 +36,7 @@ export default function Page() {
     };
   }, []);
 
-  // Fetch suggestions from backend fuzzy search
+  // Fetching suggestions from backend fuzzy search
   useEffect(() => {
     if (query.length < 2) {
       setSuggestions([]);
@@ -57,7 +57,7 @@ export default function Page() {
 
         const data = await response.json();
         
-        // Ensure data is an array before setting suggestions
+        // Ensuring data is an array before setting suggestions
         if (Array.isArray(data)) {
           setSuggestions(data);
         } else {
@@ -73,16 +73,16 @@ export default function Page() {
     return () => clearTimeout(debounce);
   }, [query]);
 
-  // On clicking a suggestion
+  // this happens upon clicking a suggestion
   const handleSelectLocation = (location: LocationSuggestion) => {
     const coordinates: [number, number] = [location.longitude, location.latitude];
 
     mapRef.current?.flyTo({ center: coordinates, zoom: 18 });
 
-    // Remove old markers
+    // Removing old markers
     markers.forEach((marker) => marker.remove());
 
-    // Add new marker
+    // Adding new marker
     const newMarker = new maplibregl.Marker()
       .setLngLat(coordinates)
       .setPopup(
@@ -168,7 +168,7 @@ export default function Page() {
         )}
       </div>
 
-      {/* Title & Bottom Nav */}
+
       <div>
         <main className="p-4">
           <h1 className="text-2xl font-bold">Campus Compass</h1>

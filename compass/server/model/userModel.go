@@ -48,6 +48,7 @@ type Review struct {
 	User          User    `gorm:"foreignKey:ContributedBy;references:UserID"`
 	ImageURL   string  `json:"image_url"`
 }
+
 type LocationSearchResult struct {
     Location
     Similarity float64 `json:"similarity"`

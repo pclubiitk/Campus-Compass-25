@@ -12,7 +12,7 @@ import (
 func SearchLocations(c *gin.Context) {
     db := c.MustGet("db").(*gorm.DB)
     
-    // Get query params
+    // Geting query params
     query := c.Query("query")
     thresholdStr := c.DefaultQuery("threshold", "0.3")
     
