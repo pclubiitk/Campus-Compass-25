@@ -1,2 +1,0 @@
-searchParams comes as props automatically in the page.tsx and layout.tsx
-files default components

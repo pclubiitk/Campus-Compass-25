@@ -1,6 +1,0 @@
-error.tsx needs to be a Client Component.
-
-
-It accepts two props(main element of error.tsx):
-error: This object is an instance of JavaScript's native Error object.
-reset: This is a function to reset the error boundary. When executed, the function will try to re-render the route segment.

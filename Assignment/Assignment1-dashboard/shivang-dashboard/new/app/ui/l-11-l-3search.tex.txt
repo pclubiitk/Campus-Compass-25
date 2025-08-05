@@ -1,3 +1,0 @@
-learned debouncing we can create our own debouning function or use external library like use-debounce
-By debouncing, you can reduce the number of requests sent to your database, thus saving resources.
-
