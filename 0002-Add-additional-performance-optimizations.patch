@@ -1,0 +1,126 @@
+From c2f9472a44569a0ec2b3c182e8e4ca484d944c9d Mon Sep 17 00:00:00 2001
+From: GitHub Copilot <copilot@github.com>
+Date: Mon, 24 Nov 2025 16:19:50 +0000
+Subject: [PATCH 2/3] Add additional performance optimizations
+
+- Optimize image loading with pre-allocated buffers
+- Add database indices for frequently queried fields
+- Add React hooks optimization (useMemo, useCallback)
+---
+ app/location/[id]/page.tsx  | 18 ++++++++++++------
+ server/model/userModel.go   | 12 ++++++------
+ server/workers/moderator.go | 22 +++++++++++++++++++---
+ 3 files changed, 37 insertions(+), 15 deletions(-)
+
+diff --git a/app/location/[id]/page.tsx b/app/location/[id]/page.tsx
+index 786d6fc..5a37118 100644
+--- a/app/location/[id]/page.tsx
++++ b/app/location/[id]/page.tsx
+@@ -1,6 +1,6 @@
+ "use client";
+ 
+-import { useEffect, useState } from "react";
++import { useEffect, useState, useMemo, useCallback } from "react";
+ import { useParams, useSearchParams, useRouter } from "next/navigation";
+ import { X, Share2, Heart, Star, StarHalf } from "lucide-react";
+ import Image from "next/image";
+@@ -84,11 +84,17 @@ export default function LocationPage() {
+     return <p className="text-center p-4">Loading location...</p>;
+   }
+ 
+-  const rating = location.avg_rating || 0;
+-  const fullStars = Math.floor(rating);
+-  const hasHalfStar = rating % 1 >= 0.5;
++  // Memoize rating calculation to avoid recalculation on every render
++  const { rating, fullStars, hasHalfStar } = useMemo(() => {
++    const rat = location.avg_rating || 0;
++    return {
++      rating: rat,
++      fullStars: Math.floor(rat),
++      hasHalfStar: rat % 1 >= 0.5,
++    };
++  }, [location.avg_rating]);
+ 
+-  const handleReviewSubmit = async () => {
++  const handleReviewSubmit = useCallback(async () => {
+     const form = document.querySelector("form")!;
+ 
+     const rating = form.querySelector<HTMLInputElement>('input[name="rating-2"]:checked')?.getAttribute("aria-label")?.[0];
+@@ -123,7 +129,7 @@ export default function LocationPage() {
+       console.error("Submit error:", err);
+       alert("Submission failed. Try again.");
+     }
+-  };
++  }, [id]);
+ 
+ 
+   return (
+diff --git a/server/model/userModel.go b/server/model/userModel.go
+index 3ece2c7..7952af3 100644
+--- a/server/model/userModel.go
++++ b/server/model/userModel.go
+@@ -20,9 +20,9 @@ type Location struct {
+ 	Description   string   `json:"description"`
+ 	Latitude      float32  `json:"latitude" binding:"required"`
+ 	Longitude     float32  `json:"longitude" binding:"required"`
+-	Status        Status   `gorm:"type:varchar(20);check:status IN ('pending','approved','rejected')"` // once the location is approved by the admin it will be publicly available
+-	ContributedBy string   `json:"contributedBy"`                                                      // This is the foreign key
+-	User          User     `gorm:"foreignKey:ContributedBy;references:UserID"`                         // many location to single user binding
++	Status        Status   `gorm:"type:varchar(20);index;check:status IN ('pending','approved','rejected')"` // once the location is approved by the admin it will be publicly available
++	ContributedBy string   `gorm:"index" json:"contributedBy"`                                                // This is the foreign key
++	User          User     `gorm:"foreignKey:ContributedBy;references:UserID"`                                // many location to single user binding
+ 	AverageRating float32  `json:"avg_rating"`
+ 	ReviewCount   int64    `json:"ReviewCount"`
+ 	Reviews       []Review `gorm:"foreignKey:LocationId;references:LocationId"` // one location to multi review binding
+@@ -45,9 +45,9 @@ type Review struct {
+ 	Description   string  `gorm:"type:text" json:"description"`
+ 	ReviewId      string  `gorm:"uniqueIndex" json:"review_id"`
+ 	Rating        float32 `json:"rating"`
+-	Status        Status  `gorm:"type:varchar(20);check:status IN ('pending','approved','rejected', 'rejectedByBot')"` // as the user writes a review put the review in the database with pending
+-	ContributedBy string  `json:"contributedBy"`                                                                       // This is the foreign key
+-	LocationId    string  `json:"location_id"`
++	Status        Status  `gorm:"type:varchar(20);index;check:status IN ('pending','approved','rejected', 'rejectedByBot')"` // as the user writes a review put the review in the database with pending
++	ContributedBy string  `gorm:"index" json:"contributedBy"`                                                                 // This is the foreign key
++	LocationId    string  `gorm:"index" json:"location_id"`
+ 	User          User    `gorm:"foreignKey:ContributedBy;references:UserID"`
+ 	ImageURL      string  `json:"image_url"`
+ }
+diff --git a/server/workers/moderator.go b/server/workers/moderator.go
+index 75117e7..5cfb24c 100644
+--- a/server/workers/moderator.go
++++ b/server/workers/moderator.go
+@@ -66,12 +66,28 @@ func loadLocalImageAsBase64(path string) (string, error) {
+ 	}
+ 	defer file.Close()
+ 
+-	buf := new(bytes.Buffer)
+-	if _, err := io.Copy(buf, file); err != nil {
++	// Get file size to pre-allocate buffer
++	fileInfo, err := file.Stat()
++	if err != nil {
++		return "", fmt.Errorf("failed to stat file: %w", err)
++	}
++
++	// Pre-allocate buffer with exact size needed for base64 encoding
++	// Base64 encoding increases size by ~33%, so we allocate accordingly
++	encodedLen := base64.StdEncoding.EncodedLen(int(fileInfo.Size()))
++	buf := make([]byte, fileInfo.Size())
++	
++	// Read entire file into pre-allocated buffer
++	n, err := file.Read(buf)
++	if err != nil && err != io.EOF {
+ 		return "", fmt.Errorf("failed to read image: %w", err)
+ 	}
+ 
+-	return base64.StdEncoding.EncodeToString(buf.Bytes()), nil
++	// Encode to base64 using pre-allocated buffer
++	encoded := make([]byte, encodedLen)
++	base64.StdEncoding.Encode(encoded, buf[:n])
++	
++	return string(encoded), nil
+ }
+ 
+ // ModerateImage Call OpenAI Moderation API
+-- 
+2.51.2
+
