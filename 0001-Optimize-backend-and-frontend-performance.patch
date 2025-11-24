@@ -1,7 +1,7 @@
 From fe8f6f3e055e47d2aa3fb09fbac3cbfdb8000e6b Mon Sep 17 00:00:00 2001
 From: GitHub Copilot <copilot@github.com>
 Date: Mon, 24 Nov 2025 16:16:07 +0000
-Subject: [PATCH] Optimize backend and frontend performance
+Subject: [PATCH 1/2] Optimize backend and frontend performance
 
 - Fix RabbitMQ: Reuse global connection in ModeratorWorker
 - Optimize HTTP: Reuse HTTP client for OpenAI API calls
