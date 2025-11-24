@@ -169,6 +169,7 @@ CREATE INDEX idx_reviews_location_id ON reviews(location_id);
 3. **Image Optimization**: Consider using image CDN for serving review images
 4. **Database Queries**: Consider using database query logging to identify slow queries
 5. **Bundle Size**: Analyze and optimize frontend bundle size with webpack-bundle-analyzer
+6. **Form Handling**: Refactor direct DOM queries in form submissions (e.g., location page) to use React refs or form state management libraries for better type safety and maintainability
 
 ## Conclusion
 

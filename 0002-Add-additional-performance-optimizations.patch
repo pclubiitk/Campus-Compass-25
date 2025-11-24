@@ -1,7 +1,7 @@
 From c2f9472a44569a0ec2b3c182e8e4ca484d944c9d Mon Sep 17 00:00:00 2001
 From: GitHub Copilot <copilot@github.com>
 Date: Mon, 24 Nov 2025 16:19:50 +0000
-Subject: [PATCH 2/2] Add additional performance optimizations
+Subject: [PATCH 2/3] Add additional performance optimizations
 
 - Optimize image loading with pre-allocated buffers
 - Add database indices for frequently queried fields
